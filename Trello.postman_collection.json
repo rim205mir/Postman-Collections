@@ -1,0 +1,574 @@
+{
+	"info": {
+		"_postman_id": "b1ce2003-619a-4e46-835c-0b07af1fd7ec",
+		"name": "Trello V2",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "15449527"
+	},
+	"item": [
+		{
+			"name": "Create Board",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var response = pm.response.json();\r",
+							"var boardid = response.id\r",
+							"\r",
+							"pm.environment.set(\"boardid\", boardid)"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/1/boards?name={{boardName}}&prefs_comments={{comments}}&prefs_background={{boardColor}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"1",
+						"boards"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "{{boardName}}"
+						},
+						{
+							"key": "prefs_comments",
+							"value": "{{comments}}"
+						},
+						{
+							"key": "prefs_background",
+							"value": "{{boardColor}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get lists",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"let response = pm.response.json();\r",
+							"\r",
+							"let idList = response[0].id;\r",
+							"let newidList = response[response.length-1].id;\r",
+							"\r",
+							"pm.environment.set(\"idList\", idList);\r",
+							"pm.environment.set(\"newidList\", newidList);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/1/boards/:boardid/lists/",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"1",
+						"boards",
+						":boardid",
+						"lists",
+						""
+					],
+					"variable": [
+						{
+							"key": "boardid",
+							"value": "{{boardid}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Card",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let cardid = pm.response.json().id\r",
+							"pm.environment.set(\"cardid\", cardid);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/1/cards?idList={{idList}}&name={{$randomProduct}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"1",
+						"cards"
+					],
+					"query": [
+						{
+							"key": "idList",
+							"value": "{{idList}}"
+						},
+						{
+							"key": "name",
+							"value": "{{$randomProduct}}"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Add Card Success",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/1/cards?idList={{idList}}&name={{$randomProduct}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"1",
+								"cards"
+							],
+							"query": [
+								{
+									"key": "idList",
+									"value": "{{idList}}"
+								},
+								{
+									"key": "name",
+									"value": "{{$randomProduct}}"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Dns-Prefetch-Control",
+							"value": "off"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "X-Download-Options",
+							"value": "noopen"
+						},
+						{
+							"key": "X-Permitted-Cross-Domain-Policies",
+							"value": "none"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "strict-origin-when-cross-origin"
+						},
+						{
+							"key": "Surrogate-Control",
+							"value": "no-store"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "max-age=0, must-revalidate, no-cache, no-store"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "Expires",
+							"value": "Thu, 01 Jan 1970 00:00:00"
+						},
+						{
+							"key": "X-Trello-Version",
+							"value": "1.116510.0"
+						},
+						{
+							"key": "X-Trello-Environment",
+							"value": "Production"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Access-Control-Allow-Methods",
+							"value": "GET, PUT, POST, DELETE"
+						},
+						{
+							"key": "Access-Control-Allow-Headers",
+							"value": "Authorization, Accept, Content-Type"
+						},
+						{
+							"key": "Access-Control-Expose-Headers",
+							"value": "x-rate-limit-api-key-interval-ms, x-rate-limit-api-key-max, x-rate-limit-api-key-remaining, x-rate-limit-api-token-interval-ms, x-rate-limit-api-token-max, x-rate-limit-api-token-remaining"
+						},
+						{
+							"key": "X-Rate-Limit-Api-Token-Interval-Ms",
+							"value": "10000"
+						},
+						{
+							"key": "X-Rate-Limit-Api-Token-Max",
+							"value": "100"
+						},
+						{
+							"key": "X-Rate-Limit-Api-Token-Remaining",
+							"value": "96"
+						},
+						{
+							"key": "X-Rate-Limit-Action-Interval-Ms",
+							"value": "3600000"
+						},
+						{
+							"key": "X-Rate-Limit-Action-Max",
+							"value": "15000"
+						},
+						{
+							"key": "X-Rate-Limit-Action-Remaining",
+							"value": "14999"
+						},
+						{
+							"key": "X-Rate-Limit-Api-Key-Interval-Ms",
+							"value": "10000"
+						},
+						{
+							"key": "X-Rate-Limit-Api-Key-Max",
+							"value": "300"
+						},
+						{
+							"key": "X-Rate-Limit-Api-Key-Remaining",
+							"value": "296"
+						},
+						{
+							"key": "X-Rate-Limit-Member-Interval-Ms",
+							"value": "10000"
+						},
+						{
+							"key": "X-Rate-Limit-Member-Max",
+							"value": "375"
+						},
+						{
+							"key": "X-Rate-Limit-Member-Remaining",
+							"value": "371"
+						},
+						{
+							"key": "Set-Cookie",
+							"value": "preAuthProps=s%3A607f1f031ce5cb6424712382%3AisEnterpriseAdmin%3Dfalse.o%2BiFMe37lETyQ6m6UdXpBOiReWZLb0txFFRgmb5S6h4; Path=/; HttpOnly"
+						},
+						{
+							"key": "X-Server-Time",
+							"value": "1646070226993"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 28 Feb 2022 17:43:46 GMT"
+						},
+						{
+							"key": "Content-Encoding",
+							"value": "gzip"
+						},
+						{
+							"key": "X-Envoy-Upstream-Service-Time",
+							"value": "239"
+						},
+						{
+							"key": "Expect-Ct",
+							"value": "report-uri=\"https://web-security-reports.services.atlassian.com/expect-ct-report/trello-edge\", max-age=86400"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=63072000; preload"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-Xss-Protection",
+							"value": "1; mode=block"
+						},
+						{
+							"key": "Atl-Traceid",
+							"value": "db7869d380201064"
+						},
+						{
+							"key": "Report-To",
+							"value": "{\"group\": \"endpoint-1\", \"max_age\": 600, \"endpoints\": [{\"url\": \"https://dj9s4kmieytgz.cloudfront.net\"}], \"include_subdomains\": true}"
+						},
+						{
+							"key": "Nel",
+							"value": "{\"report_to\": \"endpoint-1\", \"max_age\": 600, \"include_subdomains\": true, \"failure_fraction\": 0.001}"
+						},
+						{
+							"key": "Server",
+							"value": "globaledge-envoy"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"attachments\": [],\n    \"id\": \"621d09d2ea55b35fb1881f44\",\n    \"badges\": {\n        \"attachmentsByType\": {\n            \"trello\": {\n                \"board\": 0,\n                \"card\": 0\n            }\n        },\n        \"location\": false,\n        \"votes\": 0,\n        \"viewingMemberVoted\": false,\n        \"subscribed\": false,\n        \"fogbugz\": \"\",\n        \"checkItems\": 0,\n        \"checkItemsChecked\": 0,\n        \"checkItemsEarliestDue\": null,\n        \"comments\": 0,\n        \"attachments\": 0,\n        \"description\": false,\n        \"due\": null,\n        \"dueComplete\": false,\n        \"start\": null\n    },\n    \"checkItemStates\": [],\n    \"closed\": false,\n    \"dueComplete\": false,\n    \"dateLastActivity\": \"2022-02-28T17:43:46.903Z\",\n    \"desc\": \"\",\n    \"descData\": {\n        \"emoji\": {}\n    },\n    \"due\": null,\n    \"dueReminder\": null,\n    \"email\": null,\n    \"idBoard\": \"621ce4892f038618b805de1e\",\n    \"idChecklists\": [],\n    \"idList\": \"621ce4892f038618b805de1f\",\n    \"idMembers\": [],\n    \"idMembersVoted\": [],\n    \"idShort\": 5,\n    \"idAttachmentCover\": null,\n    \"labels\": [],\n    \"idLabels\": [],\n    \"manualCoverAttachment\": false,\n    \"name\": \"Gloves\",\n    \"pos\": 81920,\n    \"shortLink\": \"bHOQ84CF\",\n    \"shortUrl\": \"https://trello.com/c/bHOQ84CF\",\n    \"start\": null,\n    \"subscribed\": false,\n    \"url\": \"https://trello.com/c/bHOQ84CF/5-gloves\",\n    \"cover\": {\n        \"idAttachment\": null,\n        \"color\": null,\n        \"idUploadedBackground\": null,\n        \"size\": \"normal\",\n        \"brightness\": \"dark\",\n        \"idPlugin\": null\n    },\n    \"isTemplate\": false,\n    \"cardRole\": null,\n    \"stickers\": [],\n    \"limits\": {}\n}"
+				}
+			]
+		},
+		{
+			"name": "Add Comment",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"if(pm.response.code == 401){\r",
+							"    postman.setNextRequest(\"Update Board\")\r",
+							"\r",
+							"    pm.test(\"Going to update board\", function () {\r",
+							"        pm.response.to.have.status(401);\r",
+							"    });\r",
+							"} else if(pm.response.code == 200){\r",
+							"    postman.setNextRequest(\"Move Card\")\r",
+							"\r",
+							"    pm.test(\"Comment added\", function () {\r",
+							"        pm.response.to.have.status(200);\r",
+							"    });\r",
+							"} else {\r",
+							"\r",
+							"    pm.test(\"Wrong response\", function () {\r",
+							"        pm.response.to.have.status(200);\r",
+							"    });\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/1/cards/:cardid/actions/comments?text={{$randomLoremLines}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"1",
+						"cards",
+						":cardid",
+						"actions",
+						"comments"
+					],
+					"query": [
+						{
+							"key": "text",
+							"value": "{{$randomLoremLines}}"
+						}
+					],
+					"variable": [
+						{
+							"key": "cardid",
+							"value": "{{cardid}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Board",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"postman.setNextRequest(\"Add Comment\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/1/boards/:boardid?prefs/comments=members&prefs/background=green",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"1",
+						"boards",
+						":boardid"
+					],
+					"query": [
+						{
+							"key": "prefs/comments",
+							"value": "members"
+						},
+						{
+							"key": "prefs/background",
+							"value": "green"
+						}
+					],
+					"variable": [
+						{
+							"key": "boardid",
+							"value": "{{boardid}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Move Card",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/1/cards/:carid?idList={{newidList}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"1",
+						"cards",
+						":carid"
+					],
+					"query": [
+						{
+							"key": "idList",
+							"value": "{{newidList}}"
+						}
+					],
+					"variable": [
+						{
+							"key": "carid",
+							"value": "{{cardid}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delet Board",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/1/boards/:boardid",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"1",
+						"boards",
+						":boardid"
+					],
+					"variable": [
+						{
+							"key": "boardid",
+							"value": "{{boardid}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "oauth1",
+		"oauth1": [
+			{
+				"key": "consumerSecret",
+				"value": "256917ed6788ce14086acb93b02786da49c7901cb93df5dd107d976318d22c2e",
+				"type": "string"
+			},
+			{
+				"key": "token",
+				"value": "d30b8096ac3804e8ee823f09bd92f813b01d5e7f44e1b2a79b1922a672810f0c",
+				"type": "string"
+			},
+			{
+				"key": "consumerKey",
+				"value": "664cffb0ca565c15d699e9fd6cb57396",
+				"type": "string"
+			},
+			{
+				"key": "addParamsToHeader",
+				"value": true,
+				"type": "boolean"
+			},
+			{
+				"key": "signatureMethod",
+				"value": "HMAC-SHA1",
+				"type": "string"
+			},
+			{
+				"key": "version",
+				"value": "1.0",
+				"type": "string"
+			},
+			{
+				"key": "addEmptyParamsToSign",
+				"value": false,
+				"type": "boolean"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
